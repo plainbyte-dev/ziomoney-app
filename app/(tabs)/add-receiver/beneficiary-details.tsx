@@ -1,72 +1,55 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { addReceiverData } from '@/components/add-receiver/add-receiver-store';
-import { banks } from '@/components/add-receiver/bank-data';
 import { FraudBanner } from '@/components/add-receiver/fraud-banner';
 import { OptionPickerModal } from '@/components/add-receiver/option-picker-modal';
+import { payoutLocations } from '@/components/add-receiver/payout-location-data';
 import { GradientButton } from '@/components/gradient-button';
 import { OutlineButton } from '@/components/outline-button';
 import { ProgressBar } from '@/components/send-money/progress-bar';
 import { SendMoneyHeader } from '@/components/send-money/send-money-header';
 
-export default function BankDetailsScreen() {
+export default function BeneficiaryDetailsScreen() {
   const insets = useSafeAreaInsets();
 
-  const [bank, setBank] = useState<string | null>(null);
-  const [bankPickerOpen, setBankPickerOpen] = useState(false);
-  const [accountNumber, setAccountNumber] = useState('');
+  const [payoutLocation, setPayoutLocation] = useState<string | null>(addReceiverData.payoutLocation);
+  const [payoutLocationPickerOpen, setPayoutLocationPickerOpen] = useState(false);
 
   const handlePrev = () => {
     router.push('/add-receiver/receiving-country');
   };
 
   const handleNext = () => {
-    addReceiverData.bankName = bank;
-    addReceiverData.accountNumber = accountNumber;
+    addReceiverData.payoutLocation = payoutLocation;
     router.push('/add-receiver/personal-details');
   };
 
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Bank Details" onBack={handlePrev} />
+        <SendMoneyHeader title="Beneficiary Details" onBack={handlePrev} />
         <View style={styles.progressWrap}>
           <ProgressBar progress={0.6} />
         </View>
       </View>
 
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={insets.top + 12}>
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <FraudBanner />
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <FraudBanner />
 
-          <View style={styles.field}>
-            <Text style={styles.label}>Bank</Text>
-            <Pressable style={styles.selectRow} onPress={() => setBankPickerOpen(true)}>
-              <Text style={bank ? styles.selectValue : styles.placeholder}>{bank ?? 'Select Bank'}</Text>
-              <Ionicons name="chevron-down" size={18} color="#7A8894" />
-            </Pressable>
-          </View>
-
-          <View style={styles.field}>
-            <Text style={styles.label}>Account Number</Text>
-            <TextInput
-              value={accountNumber}
-              onChangeText={setAccountNumber}
-              keyboardType="number-pad"
-              placeholder="12345678"
-              placeholderTextColor="#B7C2CB"
-              style={styles.input}
-            />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        <View style={styles.field}>
+          <Text style={styles.label}>Payout Location</Text>
+          <Pressable style={styles.selectRow} onPress={() => setPayoutLocationPickerOpen(true)}>
+            <Text style={payoutLocation ? styles.selectValue : styles.placeholder}>
+              {payoutLocation ?? 'Payout Location'}
+            </Text>
+            <Ionicons name="chevron-down" size={18} color="#7A8894" />
+          </Pressable>
+        </View>
+      </ScrollView>
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.footerButton}>
@@ -78,12 +61,12 @@ export default function BankDetailsScreen() {
       </View>
 
       <OptionPickerModal
-        visible={bankPickerOpen}
-        title="Bank"
-        options={banks}
-        selectedOption={bank}
-        onClose={() => setBankPickerOpen(false)}
-        onSelect={setBank}
+        visible={payoutLocationPickerOpen}
+        title="Payout Location"
+        options={payoutLocations}
+        selectedOption={payoutLocation}
+        onClose={() => setPayoutLocationPickerOpen(false)}
+        onSelect={setPayoutLocation}
       />
     </View>
   );
@@ -93,9 +76,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7F9F8',
-  },
-  flex: {
-    flex: 1,
   },
   progressWrap: {
     marginTop: 16,
@@ -130,14 +110,6 @@ const styles = StyleSheet.create({
   placeholder: {
     fontSize: 15,
     color: '#B7C2CB',
-  },
-  input: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 15,
-    color: '#1A2B3C',
   },
   footer: {
     flexDirection: 'row',

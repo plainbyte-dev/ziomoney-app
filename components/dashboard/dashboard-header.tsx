@@ -4,9 +4,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type DashboardHeaderProps = {
   notificationCount?: number;
+  onPressNotifications?: () => void;
 };
 
-export function DashboardHeader({ notificationCount = 0 }: DashboardHeaderProps) {
+export function DashboardHeader({ notificationCount = 0, onPressNotifications }: DashboardHeaderProps) {
   return (
     <View style={styles.row}>
       <Pressable hitSlop={12}>
@@ -19,7 +20,7 @@ export function DashboardHeader({ notificationCount = 0 }: DashboardHeaderProps)
         contentFit="contain"
       />
 
-      <Pressable hitSlop={12} style={styles.bellButton}>
+      <Pressable hitSlop={12} style={styles.bellButton} onPress={onPressNotifications}>
         <Ionicons name="notifications-outline" size={24} color="#1A2B3C" />
         {notificationCount > 0 && (
           <View style={styles.badge}>

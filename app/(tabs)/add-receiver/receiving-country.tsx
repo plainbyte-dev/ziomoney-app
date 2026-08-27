@@ -35,7 +35,7 @@ export default function ReceivingCountryScreen() {
     if (methodId === 'wallet') {
       router.push('/add-receiver/wallet-details');
     } else if (methodId === 'cash') {
-      router.push('/add-receiver/cash-pickup-details');
+      router.push('/add-receiver/beneficiary-details');
     } else {
       router.push('/add-receiver/bank-details');
     }
@@ -44,7 +44,7 @@ export default function ReceivingCountryScreen() {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Receiving Country" />
+        <SendMoneyHeader title="Receiving Country" onBack={() => router.push('/choose-receiver')} />
         <View style={styles.progressWrap}>
           <ProgressBar progress={0.2} />
         </View>

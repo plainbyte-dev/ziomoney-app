@@ -15,12 +15,18 @@ import { StatusDialog } from '@/components/status-dialog';
 export default function TransactionDetailsScreen() {
   const insets = useSafeAreaInsets();
   const [successOpen, setSuccessOpen] = useState(false);
+  const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
   const data = sendFlowData;
   const receiver = data.receiver;
 
   const payable = data.sendAmount + data.transferFee;
 
   const handleCancel = () => {
+    setCancelConfirmOpen(true);
+  };
+
+  const handleConfirmCancel = () => {
+    setCancelConfirmOpen(false);
     router.push('/(tabs)');
   };
 
@@ -36,7 +42,12 @@ export default function TransactionDetailsScreen() {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Transaction Details" />
+        <SendMoneyHeader
+          title="Transaction Details"
+          onBack={() =>
+            router.push(data.depositType === 'Wallet' ? '/send/wallet-details' : '/send/additional-info')
+          }
+        />
         <View style={styles.progressWrap}>
           <ProgressBar progress={1} />
         </View>
@@ -67,6 +78,12 @@ export default function TransactionDetailsScreen() {
             />
           )}
           <SummaryRow label="Transfer Fee" value={`${data.transferFee.toFixed(2)} ${data.sendCurrencyCode}`} />
+          {data.depositType === 'Wallet' && (
+            <>
+              <SummaryRow label="Wallet" value={data.walletName ?? '—'} />
+              <SummaryRow label="Wallet ID" value={data.walletId || '—'} />
+            </>
+          )}
         </View>
 
         {receiver && (
@@ -101,6 +118,16 @@ export default function TransactionDetailsScreen() {
         buttonLabel="Ok"
         onButtonPress={handleDone}
         onClose={() => setSuccessOpen(false)}
+      />
+
+      <StatusDialog
+        visible={cancelConfirmOpen}
+        tone="warning"
+        title="Cancel Transaction?"
+        message="Are you sure you want to cancel this transaction?"
+        buttonLabel="Confirm"
+        onButtonPress={handleConfirmCancel}
+        onClose={() => setCancelConfirmOpen(false)}
       />
     </View>
   );

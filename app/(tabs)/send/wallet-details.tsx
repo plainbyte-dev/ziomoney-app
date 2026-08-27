@@ -4,38 +4,38 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { addReceiverData } from '@/components/add-receiver/add-receiver-store';
 import { FraudBanner } from '@/components/add-receiver/fraud-banner';
-import { idTypes } from '@/components/add-receiver/id-type-data';
 import { OptionPickerModal } from '@/components/add-receiver/option-picker-modal';
+import { walletProviders } from '@/components/add-receiver/wallet-data';
+import { sendFlowData } from '@/components/choose-receiver/send-flow-store';
 import { GradientButton } from '@/components/gradient-button';
 import { OutlineButton } from '@/components/outline-button';
 import { ProgressBar } from '@/components/send-money/progress-bar';
 import { SendMoneyHeader } from '@/components/send-money/send-money-header';
 
-export default function CashPickupDetailsScreen() {
+export default function SendWalletDetailsScreen() {
   const insets = useSafeAreaInsets();
 
-  const [idType, setIdType] = useState<string | null>(null);
-  const [idTypePickerOpen, setIdTypePickerOpen] = useState(false);
-  const [idNumber, setIdNumber] = useState('');
+  const [wallet, setWallet] = useState<string | null>(sendFlowData.walletName);
+  const [walletPickerOpen, setWalletPickerOpen] = useState(false);
+  const [walletId, setWalletId] = useState(sendFlowData.walletId);
 
   const handlePrev = () => {
-    router.back();
+    router.push('/send/additional-info');
   };
 
   const handleNext = () => {
-    addReceiverData.idType = idType;
-    addReceiverData.idNumber = idNumber;
-    router.push('/add-receiver/personal-details');
+    sendFlowData.walletName = wallet;
+    sendFlowData.walletId = walletId;
+    router.push('/send/transaction-details');
   };
 
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Cash Pickup Details" />
+        <SendMoneyHeader title="Wallet Details" onBack={handlePrev} />
         <View style={styles.progressWrap}>
-          <ProgressBar progress={0.6} />
+          <ProgressBar progress={0.8} />
         </View>
       </View>
 
@@ -47,18 +47,19 @@ export default function CashPickupDetailsScreen() {
           <FraudBanner />
 
           <View style={styles.field}>
-            <Text style={styles.label}>ID Type</Text>
-            <Pressable style={styles.selectRow} onPress={() => setIdTypePickerOpen(true)}>
-              <Text style={idType ? styles.selectValue : styles.placeholder}>{idType ?? 'Select ID Type'}</Text>
+            <Text style={styles.label}>Wallet</Text>
+            <Pressable style={styles.selectRow} onPress={() => setWalletPickerOpen(true)}>
+              <Text style={wallet ? styles.selectValue : styles.placeholder}>{wallet ?? 'Select Wallet'}</Text>
               <Ionicons name="chevron-down" size={18} color="#7A8894" />
             </Pressable>
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>ID Number</Text>
+            <Text style={styles.label}>Wallet ID</Text>
             <TextInput
-              value={idNumber}
-              onChangeText={setIdNumber}
+              value={walletId}
+              onChangeText={setWalletId}
+              keyboardType="number-pad"
               placeholder="12345678"
               placeholderTextColor="#B7C2CB"
               style={styles.input}
@@ -77,12 +78,12 @@ export default function CashPickupDetailsScreen() {
       </View>
 
       <OptionPickerModal
-        visible={idTypePickerOpen}
-        title="ID Type"
-        options={idTypes}
-        selectedOption={idType}
-        onClose={() => setIdTypePickerOpen(false)}
-        onSelect={setIdType}
+        visible={walletPickerOpen}
+        title="Wallet"
+        options={walletProviders}
+        selectedOption={wallet}
+        onClose={() => setWalletPickerOpen(false)}
+        onSelect={setWallet}
       />
     </View>
   );

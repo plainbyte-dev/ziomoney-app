@@ -4,13 +4,14 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type SendMoneyHeaderProps = {
   title: string;
+  onBack?: () => void;
   onClose?: () => void;
 };
 
-export function SendMoneyHeader({ title, onClose }: SendMoneyHeaderProps) {
+export function SendMoneyHeader({ title, onBack, onClose }: SendMoneyHeaderProps) {
   return (
     <View style={styles.row}>
-      <Pressable style={styles.iconButton} onPress={() => router.back()} hitSlop={8}>
+      <Pressable style={styles.iconButton} onPress={onBack ?? (() => router.back())} hitSlop={8}>
         <Ionicons name="chevron-back" size={22} color="#1A2B3C" />
       </Pressable>
 

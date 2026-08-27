@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -45,21 +45,21 @@ export default function TabLayout() {
         name="transfer"
         options={{
           title: 'Transfer',
-          tabBarIcon: ({ color, size }) => <Feather name="repeat" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="swap-horizontal-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="cards"
+        name="history"
         options={{
-          title: 'Cards',
-          tabBarIcon: ({ color, size }) => <Feather name="credit-card" size={size} color={color} />,
+          title: 'History',
+          tabBarIcon: ({ color, size }) => <Feather name="file-text" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="settings"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, size }) => <Feather name="user" size={size} color={color} />,
+          title: 'Setting',
+          tabBarIcon: ({ color, size }) => <Feather name="settings" size={size} color={color} />,
         }}
       />
       <Tabs.Screen name="send-money" options={{ href: null }} />
@@ -67,12 +67,17 @@ export default function TabLayout() {
       <Tabs.Screen name="add-receiver/receiving-country" options={{ href: null }} />
       <Tabs.Screen name="add-receiver/bank-details" options={{ href: null }} />
       <Tabs.Screen name="add-receiver/wallet-details" options={{ href: null }} />
-      <Tabs.Screen name="add-receiver/cash-pickup-details" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/beneficiary-details" options={{ href: null }} />
       <Tabs.Screen name="add-receiver/personal-details" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/address" options={{ href: null }} />
       <Tabs.Screen name="add-receiver/beneficiary-summary" options={{ href: null }} />
       <Tabs.Screen name="send/additional-info" options={{ href: null }} />
+      <Tabs.Screen name="send/wallet-details" options={{ href: null }} />
       <Tabs.Screen name="send/transaction-details" options={{ href: null }} />
       <Tabs.Screen name="send/receipt" options={{ href: null }} />
+      <Tabs.Screen name="account-information" options={{ href: null }} />
+      <Tabs.Screen name="change-password" options={{ href: null }} />
+      <Tabs.Screen name="notifications" options={{ href: null }} />
     </Tabs>
   );
 }

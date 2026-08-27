@@ -52,7 +52,7 @@ export default function ChooseReceiverScreen() {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Receiver" />
+        <SendMoneyHeader title="Receiver" onBack={() => router.push('/send-money')} />
       </View>
 
       <ScrollView

@@ -26,13 +26,18 @@ export default function AdditionalInfoScreen() {
     sendFlowData.purpose = purpose;
     sendFlowData.sourceOfFund = sourceOfFund;
     sendFlowData.depositType = depositType;
-    router.push('/send/transaction-details');
+
+    if (depositType === 'Wallet') {
+      router.push('/send/wallet-details');
+    } else {
+      router.push('/send/transaction-details');
+    }
   };
 
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Additional Info" />
+        <SendMoneyHeader title="Additional Info" onBack={() => router.push('/choose-receiver')} />
         <View style={styles.progressWrap}>
           <ProgressBar progress={0.3} />
         </View>

@@ -12,6 +12,8 @@ export type SendFlowData = {
   transferFee: number;
   couponDiscount: number;
   recipientGets: number;
+  walletName: string | null;
+  walletId: string;
 };
 
 function createEmptySendFlowData(): SendFlowData {
@@ -27,6 +29,8 @@ function createEmptySendFlowData(): SendFlowData {
     transferFee: 0,
     couponDiscount: 0,
     recipientGets: 0,
+    walletName: null,
+    walletId: '',
   };
 }
 

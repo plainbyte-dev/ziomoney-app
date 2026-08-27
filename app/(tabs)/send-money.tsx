@@ -78,7 +78,7 @@ export default function SendMoneyScreen() {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Send Money" />
+        <SendMoneyHeader title="Send Money" onBack={() => router.push('/(tabs)')} />
         <View style={styles.progressWrap}>
           <ProgressBar progress={0.2} />
         </View>

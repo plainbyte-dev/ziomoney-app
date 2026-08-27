@@ -7,49 +7,37 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addReceiverData } from '@/components/add-receiver/add-receiver-store';
 import { FraudBanner } from '@/components/add-receiver/fraud-banner';
 import { OptionPickerModal } from '@/components/add-receiver/option-picker-modal';
-import { relationships } from '@/components/add-receiver/relationship-data';
-import { PhoneField } from '@/components/auth/phone-field';
+import { states } from '@/components/add-receiver/state-data';
 import { GradientButton } from '@/components/gradient-button';
 import { OutlineButton } from '@/components/outline-button';
 import { ProgressBar } from '@/components/send-money/progress-bar';
 import { SendMoneyHeader } from '@/components/send-money/send-money-header';
-import { countries } from '@/lib/countries';
 
-export default function PersonalDetailsScreen() {
+export default function AddressScreen() {
   const insets = useSafeAreaInsets();
 
-  const [fullName, setFullName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [phoneCountry, setPhoneCountry] = useState(
-    countries.find((c) => c.iso2 === 'NP') ?? countries[0],
-  );
-  const [relationship, setRelationship] = useState<string | null>(null);
-  const [relationshipPickerOpen, setRelationshipPickerOpen] = useState(false);
+  const [zipCode, setZipCode] = useState(addReceiverData.zipCode);
+  const [state, setState] = useState<string | null>(addReceiverData.state);
+  const [statePickerOpen, setStatePickerOpen] = useState(false);
+  const [streetAddress, setStreetAddress] = useState(addReceiverData.streetAddress);
 
   const handlePrev = () => {
-    if (addReceiverData.methodId === 'wallet') {
-      router.push('/add-receiver/wallet-details');
-    } else if (addReceiverData.methodId === 'cash') {
-      router.push('/add-receiver/beneficiary-details');
-    } else {
-      router.push('/add-receiver/bank-details');
-    }
+    router.push('/add-receiver/personal-details');
   };
 
-  const handleNext = () => {
-    addReceiverData.fullName = fullName;
-    addReceiverData.phoneDialCode = phoneCountry.dialCode;
-    addReceiverData.phoneNumber = phoneNumber;
-    addReceiverData.relationship = relationship;
-    router.push('/add-receiver/address');
+  const handleSubmit = () => {
+    addReceiverData.zipCode = zipCode;
+    addReceiverData.state = state;
+    addReceiverData.streetAddress = streetAddress;
+    router.push('/add-receiver/beneficiary-summary');
   };
 
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Personal Details" onBack={handlePrev} />
+        <SendMoneyHeader title="Address" onBack={handlePrev} />
         <View style={styles.progressWrap}>
-          <ProgressBar progress={0.8} />
+          <ProgressBar progress={0.9} />
         </View>
       </View>
 
@@ -61,32 +49,34 @@ export default function PersonalDetailsScreen() {
           <FraudBanner />
 
           <View style={styles.field}>
-            <Text style={styles.label}>Full Name</Text>
+            <Text style={styles.label}>Zip Code</Text>
             <TextInput
-              value={fullName}
-              onChangeText={setFullName}
-              placeholder="Enter full name"
+              value={zipCode}
+              onChangeText={setZipCode}
+              keyboardType="number-pad"
+              placeholder="Enter zip code"
               placeholderTextColor="#B7C2CB"
               style={styles.input}
             />
           </View>
 
-          <PhoneField
-            label="Phone Number"
-            value={phoneNumber}
-            onChangeValue={setPhoneNumber}
-            country={phoneCountry}
-            onChangeCountry={setPhoneCountry}
-          />
-
           <View style={styles.field}>
-            <Text style={styles.label}>Relationship</Text>
-            <Pressable style={styles.selectRow} onPress={() => setRelationshipPickerOpen(true)}>
-              <Text style={relationship ? styles.selectValue : styles.placeholder}>
-                {relationship ?? 'Select Relationship'}
-              </Text>
+            <Text style={styles.label}>State</Text>
+            <Pressable style={styles.selectRow} onPress={() => setStatePickerOpen(true)}>
+              <Text style={state ? styles.selectValue : styles.placeholder}>{state ?? 'Select State'}</Text>
               <Ionicons name="chevron-down" size={18} color="#7A8894" />
             </Pressable>
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label}>Street Address</Text>
+            <TextInput
+              value={streetAddress}
+              onChangeText={setStreetAddress}
+              placeholder="Enter Street Address"
+              placeholderTextColor="#B7C2CB"
+              style={styles.input}
+            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -96,17 +86,17 @@ export default function PersonalDetailsScreen() {
           <OutlineButton label="Prev" onPress={handlePrev} />
         </View>
         <View style={styles.footerButton}>
-          <GradientButton label="Next" onPress={handleNext} />
+          <GradientButton label="Submit" onPress={handleSubmit} />
         </View>
       </View>
 
       <OptionPickerModal
-        visible={relationshipPickerOpen}
-        title="Relationship"
-        options={relationships}
-        selectedOption={relationship}
-        onClose={() => setRelationshipPickerOpen(false)}
-        onSelect={setRelationship}
+        visible={statePickerOpen}
+        title="State"
+        options={states}
+        selectedOption={state}
+        onClose={() => setStatePickerOpen(false)}
+        onSelect={setState}
       />
     </View>
   );

@@ -6,14 +6,16 @@ export type AddReceiverData = {
   methodLabel: string;
   bankName: string | null;
   accountNumber: string;
-  walletProvider: string | null;
-  walletMobileNumber: string;
-  idType: string | null;
-  idNumber: string;
+  walletName: string | null;
+  walletId: string;
+  payoutLocation: string | null;
   fullName: string;
   phoneDialCode: string;
   phoneNumber: string;
   relationship: string | null;
+  zipCode: string;
+  state: string | null;
+  streetAddress: string;
 };
 
 function createEmptyAddReceiverData(): AddReceiverData {
@@ -25,14 +27,16 @@ function createEmptyAddReceiverData(): AddReceiverData {
     methodLabel: '',
     bankName: null,
     accountNumber: '',
-    walletProvider: null,
-    walletMobileNumber: '',
-    idType: null,
-    idNumber: '',
+    walletName: null,
+    walletId: '',
+    payoutLocation: null,
     fullName: '',
     phoneDialCode: '',
     phoneNumber: '',
     relationship: null,
+    zipCode: '',
+    state: null,
+    streetAddress: '',
   };
 }
 

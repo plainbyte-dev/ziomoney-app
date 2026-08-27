@@ -16,24 +16,24 @@ import { SendMoneyHeader } from '@/components/send-money/send-money-header';
 export default function WalletDetailsScreen() {
   const insets = useSafeAreaInsets();
 
-  const [provider, setProvider] = useState<string | null>(null);
-  const [providerPickerOpen, setProviderPickerOpen] = useState(false);
-  const [mobileNumber, setMobileNumber] = useState('');
+  const [wallet, setWallet] = useState<string | null>(null);
+  const [walletPickerOpen, setWalletPickerOpen] = useState(false);
+  const [walletId, setWalletId] = useState('');
 
   const handlePrev = () => {
-    router.back();
+    router.push('/add-receiver/receiving-country');
   };
 
   const handleNext = () => {
-    addReceiverData.walletProvider = provider;
-    addReceiverData.walletMobileNumber = mobileNumber;
+    addReceiverData.walletName = wallet;
+    addReceiverData.walletId = walletId;
     router.push('/add-receiver/personal-details');
   };
 
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Wallet Details" />
+        <SendMoneyHeader title="Wallet Details" onBack={handlePrev} />
         <View style={styles.progressWrap}>
           <ProgressBar progress={0.6} />
         </View>
@@ -47,22 +47,20 @@ export default function WalletDetailsScreen() {
           <FraudBanner />
 
           <View style={styles.field}>
-            <Text style={styles.label}>Wallet Provider</Text>
-            <Pressable style={styles.selectRow} onPress={() => setProviderPickerOpen(true)}>
-              <Text style={provider ? styles.selectValue : styles.placeholder}>
-                {provider ?? 'Select Wallet Provider'}
-              </Text>
+            <Text style={styles.label}>Wallet</Text>
+            <Pressable style={styles.selectRow} onPress={() => setWalletPickerOpen(true)}>
+              <Text style={wallet ? styles.selectValue : styles.placeholder}>{wallet ?? 'Select Wallet'}</Text>
               <Ionicons name="chevron-down" size={18} color="#7A8894" />
             </Pressable>
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>Mobile Number</Text>
+            <Text style={styles.label}>Wallet ID</Text>
             <TextInput
-              value={mobileNumber}
-              onChangeText={setMobileNumber}
+              value={walletId}
+              onChangeText={setWalletId}
               keyboardType="number-pad"
-              placeholder="98XXXXXXXX"
+              placeholder="12345678"
               placeholderTextColor="#B7C2CB"
               style={styles.input}
             />
@@ -80,12 +78,12 @@ export default function WalletDetailsScreen() {
       </View>
 
       <OptionPickerModal
-        visible={providerPickerOpen}
-        title="Wallet Provider"
+        visible={walletPickerOpen}
+        title="Wallet"
         options={walletProviders}
-        selectedOption={provider}
-        onClose={() => setProviderPickerOpen(false)}
-        onSelect={setProvider}
+        selectedOption={wallet}
+        onClose={() => setWalletPickerOpen(false)}
+        onSelect={setWallet}
       />
     </View>
   );

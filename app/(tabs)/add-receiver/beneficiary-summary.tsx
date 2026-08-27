@@ -28,7 +28,7 @@ export default function BeneficiarySummaryScreen() {
   return (
     <View style={styles.container}>
       <View style={{ paddingTop: insets.top + 12 }}>
-        <SendMoneyHeader title="Beneficiary Summary" />
+        <SendMoneyHeader title="Beneficiary Summary" onBack={() => router.push('/add-receiver/address')} />
         <View style={styles.progressWrap}>
           <ProgressBar progress={1} />
         </View>
@@ -59,19 +59,19 @@ export default function BeneficiarySummaryScreen() {
 
           {data.methodId === 'wallet' && (
             <>
-              <SummaryRow label="Wallet Provider" value={data.walletProvider ?? '—'} />
-              <SummaryRow label="Wallet Mobile Number" value={data.walletMobileNumber || '—'} />
+              <SummaryRow label="Wallet" value={data.walletName ?? '—'} />
+              <SummaryRow label="Wallet ID" value={data.walletId || '—'} />
             </>
           )}
 
           {data.methodId === 'cash' && (
-            <>
-              <SummaryRow label="ID Type" value={data.idType ?? '—'} />
-              <SummaryRow label="ID Number" value={data.idNumber || '—'} />
-            </>
+            <SummaryRow label="Payout Location" value={data.payoutLocation ?? '—'} />
           )}
 
           <SummaryRow label="Receiving Method" value={data.methodLabel} />
+          <SummaryRow label="Street Address" value={data.streetAddress || '—'} />
+          <SummaryRow label="State" value={data.state ?? '—'} />
+          <SummaryRow label="Zip Code" value={data.zipCode || '—'} />
         </View>
       </ScrollView>
 

@@ -16,7 +16,7 @@ export default function HomeScreen() {
       <ScrollView
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]}
         showsVerticalScrollIndicator={false}>
-        <DashboardHeader notificationCount={4} />
+        <DashboardHeader notificationCount={4} onPressNotifications={() => router.push('/notifications')} />
 
         <View style={styles.section}>
           <BalanceCard balance={12450.75} convertedAmount="10,243.90 EUR" />
