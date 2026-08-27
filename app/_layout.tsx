@@ -32,7 +32,6 @@ export default function RootLayout() {
         <Stack.Screen name="create-password" options={{ headerShown: false }} />
         <Stack.Screen name="kyc-verify" options={{ headerShown: false }} />
         <Stack.Screen name="create-profile" options={{ headerShown: false }} />
-        <Stack.Screen name="send-money" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>

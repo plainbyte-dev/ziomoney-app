@@ -29,12 +29,15 @@ const styles = StyleSheet.create({
   },
   logoRow: {
     flexDirection: 'row',
+    paddingTop: 8,
+    paddingRight: 12,
   },
   logoText: {
     fontSize: 46,
     fontWeight: '800',
     fontStyle: 'italic',
-    letterSpacing: -1,
+    letterSpacing: -0.5,
+    lineHeight: 56,
   },
   zio: {
     color: '#2E6DA4',

@@ -21,4 +21,5 @@ export const currencies: Currency[] = [
   { code: 'BRL', name: 'Brazilian Real', flag: '🇧🇷', rateFromUsd: 5.15 },
   { code: 'SGD', name: 'Singapore Dollar', flag: '🇸🇬', rateFromUsd: 1.34 },
   { code: 'AED', name: 'UAE Dirham', flag: '🇦🇪', rateFromUsd: 3.67 },
+  { code: 'NPR', name: 'Nepalese Rupee', flag: '🇳🇵', rateFromUsd: 132.85 },
 ];

@@ -1,21 +1,22 @@
 import { FlatList, Modal, Pressable, StyleSheet, Text } from 'react-native';
 
-import { currencies, type Currency } from '@/lib/currencies';
+import type { ReceivingCountry } from './send-money-data';
+import { receivingCountries } from './send-money-data';
 
-type CurrencyPickerModalProps = {
+type CountryPickerModalProps = {
   visible: boolean;
   onClose: () => void;
-  onSelect: (currency: Currency) => void;
+  onSelect: (country: ReceivingCountry) => void;
 };
 
-export function CurrencyPickerModal({ visible, onClose, onSelect }: CurrencyPickerModalProps) {
+export function CountryPickerModal({ visible, onClose, onSelect }: CountryPickerModalProps) {
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose}>
         <Pressable style={styles.sheet} onPress={(e) => e.stopPropagation()}>
           <FlatList
-            data={currencies}
-            keyExtractor={(item) => item.code}
+            data={receivingCountries}
+            keyExtractor={(item) => item.name}
             renderItem={({ item }) => (
               <Pressable
                 style={styles.option}
@@ -25,7 +26,7 @@ export function CurrencyPickerModal({ visible, onClose, onSelect }: CurrencyPick
                 }}>
                 <Text style={styles.optionFlag}>{item.flag}</Text>
                 <Text style={styles.optionText}>
-                  {item.code} — {item.name}
+                  {item.name} · {item.currencyCode}
                 </Text>
               </Pressable>
             )}

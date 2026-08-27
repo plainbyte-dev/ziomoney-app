@@ -62,6 +62,17 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <Feather name="user" size={size} color={color} />,
         }}
       />
+      <Tabs.Screen name="send-money" options={{ href: null }} />
+      <Tabs.Screen name="choose-receiver" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/receiving-country" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/bank-details" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/wallet-details" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/cash-pickup-details" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/personal-details" options={{ href: null }} />
+      <Tabs.Screen name="add-receiver/beneficiary-summary" options={{ href: null }} />
+      <Tabs.Screen name="send/additional-info" options={{ href: null }} />
+      <Tabs.Screen name="send/transaction-details" options={{ href: null }} />
+      <Tabs.Screen name="send/receipt" options={{ href: null }} />
     </Tabs>
   );
 }
