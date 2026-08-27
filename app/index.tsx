@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
 export default function SplashScreen() {
   useEffect(() => {
@@ -12,10 +12,11 @@ export default function SplashScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoRow}>
-        <Text style={[styles.logoText, styles.zio]}>Zio</Text>
-        <Text style={[styles.logoText, styles.money]}>Money</Text>
-      </View>
+      <Image
+        source={require('@/assets/images/logo/logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
     </View>
   );
 }
@@ -27,22 +28,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoRow: {
-    flexDirection: 'row',
-    paddingTop: 8,
-    paddingRight: 12,
-  },
-  logoText: {
-    fontSize: 46,
-    fontWeight: '800',
-    fontStyle: 'italic',
-    letterSpacing: -0.5,
-    lineHeight: 56,
-  },
-  zio: {
-    color: '#2E6DA4',
-  },
-  money: {
-    color: '#6EBE44',
+  logo: {
+    width: 240,
+    height: 80,
   },
 });

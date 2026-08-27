@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
+  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
@@ -61,10 +62,11 @@ export default function OnboardingScreen() {
   return (
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-        <View style={styles.logoRow}>
-          <Text style={[styles.logoText, styles.zio]}>Zio</Text>
-          <Text style={[styles.logoText, styles.money]}>Money</Text>
-        </View>
+        <Image
+          source={require('@/assets/images/logo/logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
         {!isLastSlide && (
           <Pressable onPress={finishOnboarding} hitSlop={12}>
             <Text style={styles.skip}>Skip</Text>
@@ -112,20 +114,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 8,
   },
-  logoRow: {
-    flexDirection: 'row',
-  },
-  logoText: {
-    fontSize: 20,
-    fontWeight: '800',
-    fontStyle: 'italic',
-    letterSpacing: -0.5,
-  },
-  zio: {
-    color: '#2E6DA4',
-  },
-  money: {
-    color: '#6EBE44',
+  logo: {
+    width: 110,
+    height: 36,
   },
   skip: {
     fontSize: 15,
