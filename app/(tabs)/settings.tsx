@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,15 +11,22 @@ import { SettingsRow } from '@/components/settings/settings-row';
 import { SupportBanner } from '@/components/settings/support-banner';
 import { StatusDialog } from '@/components/status-dialog';
 import { OptionPickerModal } from '@/components/add-receiver/option-picker-modal';
+import { isBiometricEnabled } from '@/lib/auth-storage';
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
 
   const [language, setLanguage] = useState('English');
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
-  const [biometricEnabled, setBiometricEnabled] = useState(true);
+  const [biometricEnabled, setBiometricEnabledState] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      isBiometricEnabled().then(setBiometricEnabledState);
+    }, [])
+  );
 
   const handleLogout = () => {
     setLogoutConfirmOpen(false);
@@ -61,8 +69,8 @@ export default function SettingsScreen() {
         <SettingsRow
           icon="finger-print-outline"
           label="Set Biometric"
-          switchValue={biometricEnabled}
-          onToggle={setBiometricEnabled}
+          value={biometricEnabled ? 'On' : 'Off'}
+          onPress={() => router.push('/set-biometric')}
         />
         <SettingsRow
           icon="notifications-outline"

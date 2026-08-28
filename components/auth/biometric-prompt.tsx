@@ -3,6 +3,8 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import { useEffect, useState } from 'react';
 import { Platform, Pressable, StyleSheet } from 'react-native';
 
+import { isBiometricEnabled } from '@/lib/auth-storage';
+
 type BiometricPromptProps = {
   onSuccess: () => void;
 };
@@ -14,7 +16,8 @@ export function BiometricPrompt({ onSuccess }: BiometricPromptProps) {
     (async () => {
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-      setAvailable(hasHardware && isEnrolled);
+      const enabled = await isBiometricEnabled();
+      setAvailable(hasHardware && isEnrolled && enabled);
     })();
   }, []);
 
